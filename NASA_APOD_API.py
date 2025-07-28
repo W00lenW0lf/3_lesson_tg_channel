@@ -16,7 +16,7 @@ def NASA_APOD_API():
     response.raise_for_status()
     launch_array = response.json()
     raw_urls = {}
-    directory = "images/NASA_APOD"
+    directory = "images"
     for item in launch_array:
         explanation = item["explanation"]
         name = " ".join(explanation.split()[:3]).strip(" ,.!?")

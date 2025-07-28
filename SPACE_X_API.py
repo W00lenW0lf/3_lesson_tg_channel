@@ -13,7 +13,7 @@ def SPACE_X_API():
         launch_array = response.json()
         image_urls = launch_array[19]["links"]["flickr"]["original"]
     raw_urls = {}
-    directory = "images/SPACE_X"
+    directory = "images"
     for img_num, img_url in enumerate(image_urls, 1):
         img_name = f"spacex_image_{img_num}.jpg"
         raw_urls[img_name] = img_url

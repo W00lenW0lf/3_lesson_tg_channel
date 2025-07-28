@@ -14,7 +14,7 @@ def NASA_EPIC_API():
     response.raise_for_status()
     launch_array = response.json()
     raw_urls = {}
-    directory = "images/NASA_EPIC"
+    directory = "images"
     for photo in launch_array:
         photo_date = photo["date"]
         date_part, time_part = photo_date.split()
