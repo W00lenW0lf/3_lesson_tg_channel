@@ -95,7 +95,7 @@ def main():
 
 ---
 
-## ▶️ Запуск
+## ▶️ ЗапусК
 
 ```bash
 python main.py
