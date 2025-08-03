@@ -1,8 +1,10 @@
 import requests
+import os
 from saving_images import saving_images
+from dotenv import load_dotenv
 
-DEFAULT_LAUNCH_NUM = 19
-def download_image_spacex():
+
+def download_image_spacex(default_launch_num):
     url = "https://api.spacexdata.com/v5/launches/latest"
     response = requests.get(url)
     response.raise_for_status()
@@ -13,7 +15,7 @@ def download_image_spacex():
         response = requests.get(url)
         response.raise_for_status()
         launch_array = response.json()
-        image_urls = launch_array[DEFAULT_LAUNCH_NUM]["links"]["flickr"]["original"]
+        image_urls = launch_array[int(default_launch_num)]["links"]["flickr"]["original"]
     raw_urls = {}
     directory = "images"
     for img_num, img_url in enumerate(image_urls, 1):
@@ -21,5 +23,8 @@ def download_image_spacex():
         raw_urls[img_name] = img_url
     saving_images(raw_urls, directory)
 
+
 if __name__ == '__main__':
-    download_image_spacex()
+    load_dotenv()
+    default_launch_num = os.environ.get('DEFAULT_LAUNCH_NUM')
+    download_image_spacex(default_launch_num)

@@ -2,7 +2,6 @@ import telegram
 import os
 import random
 import time
-from threading import Thread
 from dotenv import load_dotenv
 
 
@@ -27,20 +26,16 @@ def send_and_delete_photos(bot, chat_id, img_sending_delay):
             with open(photo, 'rb') as photo_file:
                 bot.send_photo(chat_id=chat_id, photo=photo_file)
             os.remove(photo)
-        except Exception as e:
-            print(f"Ошибка: {e}")
+        except telegram.error.TelegramError as error:
+            print(f"Ошибка: {error}")
         time.sleep(img_sending_delay)
-
-
-def send_images_bot(tg_token, img_sending_delay):
-    bot = telegram.Bot(token=tg_token)
-    updates = bot.get_updates()
-    chat_id = updates[0].message.chat.id
-    send_and_delete_photos(bot, chat_id, img_sending_delay)
 
 
 if __name__ == '__main__':
     load_dotenv()
     tg_token = os.environ.get('TG_TOKEN')
     img_sending_delay = int(os.environ.get('IMG_SENDING_DELAY'))
-    send_images_bot(tg_token, img_sending_delay)
+    bot = telegram.Bot(token=tg_token)
+    updates = bot.get_updates()
+    chat_id = updates[1].message.chat.id
+    send_and_delete_photos(bot, chat_id, img_sending_delay)

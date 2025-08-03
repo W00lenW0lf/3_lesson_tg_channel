@@ -4,15 +4,11 @@ from urllib.parse import urlparse
 from saving_images import saving_images
 from dotenv import load_dotenv
 
-load_dotenv()
-NASA_API_KEY = os.environ.get('NASA_API_KEY')
-NUMBER_SAVED_IMG = os.environ.get('NUMBER_SAVED_IMG')
 
-
-def download_image_nasa_apod():
+def download_image_nasa_apod(number_images_saved):
     url = "https://api.nasa.gov/planetary/apod"
     params = {
-        "count": NUMBER_SAVED_IMG,
+        "count": number_images_saved,
         "api_key": NASA_API_KEY
     }
     response = requests.get(url, params=params)
@@ -33,4 +29,7 @@ def download_image_nasa_apod():
 
 
 if __name__ == '__main__':
-    download_image_nasa_apod()
+    load_dotenv()
+    NASA_API_KEY = os.environ.get('NASA_API_KEY')
+    number_images_saved = os.environ.get('NUMBER_IMAGES_SAVED')
+    download_image_nasa_apod(number_images_saved)
