@@ -2,7 +2,7 @@ import os
 import requests
 
 
-def saving_images(raw_urls, directory):
+def save_images(raw_urls, directory):
     os.makedirs(directory, exist_ok=True)
     for filename, url in raw_urls.items():
         try:
@@ -15,6 +15,3 @@ def saving_images(raw_urls, directory):
             print(f"Ошибка при загрузке {filename}: {e}")
         except IOError as e:
             print(f"Ошибка при сохранении {filename}: {e}")
-
-if __name__ == '__main__':
-    saving_images()

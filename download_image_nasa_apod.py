@@ -1,15 +1,15 @@
 import requests
 import os
 from urllib.parse import urlparse
-from saving_images import saving_images
+from save_images import save_images
 from dotenv import load_dotenv
 
 
-def download_image_nasa_apod(number_images_saved):
+def download_image_nasa_apod(number_saved_images, nasa_api_key):
     url = "https://api.nasa.gov/planetary/apod"
     params = {
-        "count": number_images_saved,
-        "api_key": NASA_API_KEY
+        "count": number_saved_images,
+        "api_key": nasa_api_key
     }
     response = requests.get(url, params=params)
     response.raise_for_status()
@@ -25,11 +25,12 @@ def download_image_nasa_apod(number_images_saved):
         _, ext = os.path.splitext(filename)
         name_with_ext = f"{name}{ext}"
         raw_urls[name_with_ext] = url
-    saving_images(raw_urls, directory)
+    save_images(raw_urls, directory)
 
 
 if __name__ == '__main__':
     load_dotenv()
-    NASA_API_KEY = os.environ.get('NASA_API_KEY')
-    number_images_saved = os.environ.get('NUMBER_IMAGES_SAVED')
-    download_image_nasa_apod(number_images_saved)
+    nasa_api_key = os.environ.get('NASA_API_KEY')
+    number_saved_images = os.environ.get('NUMBER_SAVED_IMAGES')
+    download_image_nasa_apod(number_saved_images, nasa_api_key)
+

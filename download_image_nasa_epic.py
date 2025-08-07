@@ -1,6 +1,6 @@
 import requests
 import os
-from saving_images import saving_images
+from save_images import save_images
 from datetime import datetime
 from dotenv import load_dotenv
 
@@ -18,13 +18,22 @@ def download_image_nasa_epic(nasa_api_key):
     for photo in array_of_launches:
         photo_date = photo["date"]
         photo_date = datetime.strptime(photo_date, "%Y-%m-%d %H:%M:%S")
-        photo_name = photo["image"] + ".png"
+        photo_name = f"{photo['image']}.png"
         base_url = "https://api.nasa.gov/EPIC/archive/natural"
         photo_path = f"{photo_date:%Y/%m/%d}/png/{photo_name}"
-        params = {'api_key': nasa_api_key}
-        epic_url = f"{base_url}/{photo_path}{params}"
+        epic_url = f"{base_url}/{photo_path}"
         raw_urls[photo_name] = epic_url
-    saving_images(raw_urls, directory)
+    for filename, url in raw_urls.items():
+        try:
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+            img_path = os.path.join(directory, filename)
+            with open(img_path, 'wb') as f:
+                f.write(response.content)
+        except requests.exceptions.RequestException as e:
+            print(f"Ошибка при загрузке {filename}: {e}")
+        except IOError as e:
+            print(f"Ошибка при сохранении {filename}: {e}")
 
 
 if __name__ == '__main__':
