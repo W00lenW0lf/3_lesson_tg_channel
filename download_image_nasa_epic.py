@@ -14,7 +14,6 @@ def download_image_nasa_epic(nasa_api_key):
     response.raise_for_status()
     array_of_launches = response.json()
     raw_urls = {}
-    directory = "images"
     for photo in array_of_launches:
         photo_date = photo["date"]
         photo_date = datetime.strptime(photo_date, "%Y-%m-%d %H:%M:%S")
@@ -23,17 +22,8 @@ def download_image_nasa_epic(nasa_api_key):
         photo_path = f"{photo_date:%Y/%m/%d}/png/{photo_name}"
         epic_url = f"{base_url}/{photo_path}"
         raw_urls[photo_name] = epic_url
-    for filename, url in raw_urls.items():
-        try:
-            response = requests.get(url, params=params)
-            response.raise_for_status()
-            img_path = os.path.join(directory, filename)
-            with open(img_path, 'wb') as f:
-                f.write(response.content)
-        except requests.exceptions.RequestException as e:
-            print(f"Ошибка при загрузке {filename}: {e}")
-        except IOError as e:
-            print(f"Ошибка при сохранении {filename}: {e}")
+    save_images(raw_urls, params)
+
 
 
 if __name__ == '__main__':

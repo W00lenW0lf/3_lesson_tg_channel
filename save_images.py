@@ -2,11 +2,12 @@ import os
 import requests
 
 
-def save_images(raw_urls, directory):
+def save_images(raw_urls, params):
+    directory = "images"
     os.makedirs(directory, exist_ok=True)
     for filename, url in raw_urls.items():
         try:
-            response = requests.get(url)
+            response = requests.get(url, params=params)
             response.raise_for_status()
             img_path = os.path.join(directory, filename)
             with open(img_path, 'wb') as f:
