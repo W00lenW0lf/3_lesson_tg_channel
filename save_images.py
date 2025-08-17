@@ -2,7 +2,7 @@ import os
 import requests
 
 
-def save_images(raw_urls, params):
+def save_images(raw_urls, params=None):
     directory = "images"
     os.makedirs(directory, exist_ok=True)
     for filename, url in raw_urls.items():

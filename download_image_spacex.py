@@ -21,7 +21,7 @@ def download_image_spacex(default_launch_num):
     for img_num, img_url in enumerate(image_urls, 1):
         img_name = f"spacex_image_{img_num}.jpg"
         raw_urls[img_name] = img_url
-    save_images(raw_urls, params=None)
+    save_images(raw_urls)
 
 
 if __name__ == '__main__':

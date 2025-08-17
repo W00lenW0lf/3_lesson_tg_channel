@@ -24,7 +24,7 @@ def download_image_nasa_apod(saved_images_count, nasa_api_key):
         _, ext = os.path.splitext(filename)
         name_with_ext = f"{name}{ext}"
         raw_urls[name_with_ext] = url
-    save_images(raw_urls, params=None)
+    save_images(raw_urls)
 
 
 if __name__ == '__main__':
